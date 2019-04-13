@@ -17,4 +17,4 @@
             submit_button();
         ?>
     </form>
-</div> <?php
+</div>

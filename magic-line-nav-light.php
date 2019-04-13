@@ -21,7 +21,6 @@ define('WP_DEBUG', true);
 
 if(! class_exists('MagicLineNavigationLight') ){
 
-
     class MagicLineNavigationLight{
 
         /**
@@ -29,12 +28,44 @@ if(! class_exists('MagicLineNavigationLight') ){
          */
         public function __construct() {
             // Hook into the admin menu
+            add_filter( 'plugin_action_links_'.plugin_basename(__FILE__) , array( $this, 'settings_link' ) );
             add_action( 'admin_menu', array( $this, 'create_plugin_settings_page' ) );
             add_action( 'admin_init', array( $this, 'setup_sections' ) );
             add_action( 'admin_init', array( $this, 'setup_fields' ) );
 
-           
+            
         }
+
+        /**
+         * Call to frontend
+         */
+
+        // function mll_script(){
+        //     return 'mel';
+        // //     echo '<script>'.get_option('our_first_field').'</script>';
+        // }
+
+        /*
+        function testingone(){ 
+            if( get_option( 'our_first_field' ) ) {
+                ?>
+                <script>var Script = GoesHere; </script>
+                <?php
+            }
+        }
+        */
+
+
+        /**
+         * settings_link
+         */
+        public function settings_link($links){
+            $settings_link = '<a href="admin.php?page=smashing_fields">Settings</a>';
+            $documentation_link = '<a href="https://mel-7.com/" target="__blank">Documentation</a>';
+            array_push($links, $settings_link, $documentation_link);
+            return $links;
+        }
+
 
         /**
          * Add Plugin Menu and Page
@@ -121,21 +152,64 @@ if(! class_exists('MagicLineNavigationLight') ){
                     break;
             }
         }
-
-
-        /**
-         * Call to frontend
-         */
-        // add_action('wp_head', 'mll_script');
-        function mll_script(){
-            echo get_option('our_first_field');
-        }
-
     }
 
     if( class_exists('MagicLineNavigationLight') ){
         $MLL = new MagicLineNavigationLight();
     }
+
+
+
+
+
+    /**
+     * Display to Frontend
+     */
+    function magic_line_nav_light_script() {
+
+        $mll_selector = get_option('our_first_field');
+        
+        /*
+            $magicLine
+            .width($("#top-menu li.current-menu-item a").width())
+            .css("left", $("#top-menu li.current-menu-item").position().left)
+            .data("origLeft", $magicLine.position().left)
+            .data("origWidth", $magicLine.width());
+        */
+
+        ?>
+        <!-- Magic Line Navigation -->
+        <style>#top-menu.nav { position: relative;}#top-menu.nav li { display: inline-flex; }#magic-line { position: absolute; bottom: -2px; left: 0; height: 2px; background: #fe4902; }#main-header ul.sub-menu{ top: 100%;}</style>
+        <script async>
+            var $the_mll_selector = '<?php echo $mll_selector; ?>';
+            (function($){
+                $("#top-menu").append("<li id='magic-line'></li>");
+                var $magicLine = $("#magic-line");
+                $magicLine
+                .width($($the_mll_selector + '.current-menu-item a').width())
+                .css("left", $($the_mll_selector + '.current-menu-item').position().left)
+                .data("origLeft", $magicLine.position().left)
+                .data("origWidth", $magicLine.width());
+                $("#top-menu.nav > li").hover(function() {
+                    $el = $(this);
+                    leftPos = $el.position().left;
+                    newWidth = $el.width();
+                    $magicLine.stop().animate({
+                        left: leftPos,
+                        width: newWidth
+                });
+                }, function() {
+                    $magicLine.stop().animate({
+                        left: $magicLine.data("origLeft"),
+                        width: $magicLine.data("origWidth")
+                    });    
+                });
+            })(jQuery);
+        </script>
+        <!-- End of Magic Line Navigation Script -->
+        <?php
+    }
+    add_action('wp_footer', 'magic_line_nav_light_script');
 
     // Activation Hook
     register_activation_hook(__FILE__, array( $MLL, 'activate') );

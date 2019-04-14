@@ -178,22 +178,49 @@ if(! class_exists('MagicLineNavigationLight') ){
         */
 
         ?>
+        <?php// echo $mll_selector.'.current-menu-item'; ?>
         <!-- Magic Line Navigation -->
-        <style>#top-menu.nav { position: relative;}#top-menu.nav li { display: inline-flex; }#magic-line { position: absolute; bottom: -2px; left: 0; height: 2px; background: #fe4902; }#main-header ul.sub-menu{ top: 100%;}</style>
-        <script async>
-            var $the_mll_selector = '<?php echo $mll_selector; ?>';
+        <div id="mll" hidden 
+        data-mllselector="<?php echo get_option('our_first_field');?>" 
+        data-mllwidth="<?php echo get_option('our_first_field').' li.current-menu-item';?>" 
+        data-mllposition="<?php echo get_option('our_first_field').' li.current-menu-item';?>">
+        </div>
+        <!-- <style>#top-menu.nav { position: relative;}#top-menu.nav li { display: inline-flex; }#magic-line { position: absolute; bottom: -2px; left: 0; height: 2px; background: #fe4902; }#main-header ul.sub-menu{ top: 100%;}</style> -->
+        <style>
+        <?php echo $mll_selector;?>{ position: relative;}
+        <?php echo $mll_selector;?> li { display: inline-flex; }
+        #magic-line{ position: absolute; bottom: -2px; left: 0; height: 2px; background: #fe4902; margin: 0 auto !important; }
+        <?php echo $mll_selector;?> li ul{ top: 100%;}</style>
+        <script>
             (function($){
-                $("#top-menu").append("<li id='magic-line'></li>");
+                
+                var $mll_selector = $("#mll").data("mllselector");
+
+                
+                var $mll_width = $("#mll").data("mllwidth");
+                // var $the_width = $($mll_width).outerWidth(true); 
+
+
+                var $mll_width = $("#mll").data("mllwidth");
+                var $mll_position = $("#mll").data("mllposition");
+
+                console.log($mll_selector);
+                console.log($mll_width);
+                console.log($mll_position);
+
+                $($mll_selector).append("<li id='magic-line'></li>");
                 var $magicLine = $("#magic-line");
                 $magicLine
-                .width($($the_mll_selector + '.current-menu-item a').width())
-                .css("left", $($the_mll_selector + '.current-menu-item').position().left)
+                // .width($($mll_width).width())
+                .width($($mll_width).outerWidth(true))
+                .css("left", $($mll_position).position().left)
                 .data("origLeft", $magicLine.position().left)
                 .data("origWidth", $magicLine.width());
-                $("#top-menu.nav > li").hover(function() {
+                $($mll_selector+" > li").hover(function() {
                     $el = $(this);
                     leftPos = $el.position().left;
-                    newWidth = $el.width();
+                    // newWidth = $el.width();
+                    newWidth = $el.outerWidth(true);
                     $magicLine.stop().animate({
                         left: leftPos,
                         width: newWidth

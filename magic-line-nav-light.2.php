@@ -19,9 +19,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define('WP_DEBUG', true);
 
-define( 'magic_line_light', '3.3.14' ); 
-define( 'magic_line_light', 'Romel' );
-
 if(! class_exists('MagicLineNavigationLight') ){
 
     class MagicLineNavigationLight{
@@ -39,12 +36,31 @@ if(! class_exists('MagicLineNavigationLight') ){
             
         }
 
+        /**
+         * Call to frontend
+         */
+
+        // function mll_script(){
+        //     return 'mel';
+        // //     echo '<script>'.get_option('our_first_field').'</script>';
+        // }
+
+        /*
+        function testingone(){ 
+            if( get_option( 'our_first_field' ) ) {
+                ?>
+                <script>var Script = GoesHere; </script>
+                <?php
+            }
+        }
+        */
+
 
         /**
          * settings_link
          */
         public function settings_link($links){
-            $settings_link = '<a href="admin.php?page=magic_line_light">Settings</a>';
+            $settings_link = '<a href="admin.php?page=smashing_fields">Settings</a>';
             $documentation_link = '<a href="https://mel-7.com/" target="__blank">Documentation</a>';
             array_push($links, $settings_link, $documentation_link);
             return $links;
@@ -59,7 +75,7 @@ if(! class_exists('MagicLineNavigationLight') ){
             $page_title = 'Magic Line Navigation';
             $menu_title = 'Magic Line';
             $capability = 'manage_options';
-            $slug = 'magic_line_light';
+            $slug = 'smashing_fields';
             $callback = array( $this, 'plugin_settings_page_content' );
             $icon = 'dashicons-editor-underline';
             $position = 100;
@@ -76,8 +92,8 @@ if(! class_exists('MagicLineNavigationLight') ){
                 <?php settings_errors(); ?>
                 <form method="post" action="options.php">
                     <?php
-                        settings_fields( 'magic_line_light' );
-                        do_settings_sections( 'magic_line_light' );
+                        settings_fields( 'smashing_fields' );
+                        do_settings_sections( 'smashing_fields' );
                         submit_button();
                     ?>
                 </form>
@@ -85,7 +101,7 @@ if(! class_exists('MagicLineNavigationLight') ){
         }
 
         public function setup_sections() {
-            add_settings_section( 'our_first_section', 'Setup', array( $this, 'section_callback' ), 'magic_line_light' );
+            add_settings_section( 'our_first_section', 'Setup', array( $this, 'section_callback' ), 'smashing_fields' );
         }
 
         public function section_callback( $arguments ) {
@@ -105,7 +121,7 @@ if(! class_exists('MagicLineNavigationLight') ){
         public function setup_fields() {
             $fields = array(
                 array(
-                    'uid' => 'mll_nav_selector',
+                    'uid' => 'our_first_field',
                     'label' => 'Navigation Selector',
                     'section' => 'our_first_section',
                     'type' => 'text',
@@ -117,8 +133,8 @@ if(! class_exists('MagicLineNavigationLight') ){
                 )
             );
             foreach( $fields as $field ){
-                add_settings_field( $field['uid'], $field['label'], array( $this, 'field_callback' ), 'magic_line_light', $field['section'], $field );
-                register_setting( 'magic_line_light', $field['uid'] );
+                add_settings_field( $field['uid'], $field['label'], array( $this, 'field_callback' ), 'smashing_fields', $field['section'], $field );
+                register_setting( 'smashing_fields', $field['uid'] );
             }
         }
 
@@ -142,18 +158,32 @@ if(! class_exists('MagicLineNavigationLight') ){
         $MLL = new MagicLineNavigationLight();
     }
 
+
+
+
+
     /**
      * Display to Frontend
      */
     function magic_line_nav_light_script() {
 
-        $mll_selector = get_option('mll_nav_selector'); ?>
+        $mll_selector = get_option('our_first_field');
+        
+        /*
+            $magicLine
+            .width($("#top-menu li.current-menu-item a").width())
+            .css("left", $("#top-menu li.current-menu-item").position().left)
+            .data("origLeft", $magicLine.position().left)
+            .data("origWidth", $magicLine.width());
+        */
 
+        ?>
         <!-- Magic Line Navigation -->
-        <div id="mll" hidden data-mllselector="<?php echo get_option('mll_nav_selector');?>" 
-            data-mllwidth="<?php echo get_option('mll_nav_selector').' li.current-menu-item';?>" 
-            data-mllposition="<?php echo get_option('mll_nav_selector').' li.current-menu-item';?>">
+        <div id="mll" hidden data-mllselector="<?php echo get_option('our_first_field');?>" 
+            data-mllwidth="<?php echo get_option('our_first_field').' li.current-menu-item';?>" 
+            data-mllposition="<?php echo get_option('our_first_field').' li.current-menu-item';?>">
         </div>
+        <!-- <style>#top-menu.nav { position: relative;}#top-menu.nav li { display: inline-flex; }#magic-line { position: absolute; bottom: -2px; left: 0; height: 2px; background: #fe4902; }#main-header ul.sub-menu{ top: 100%;}</style> -->
         <style>
         <?php echo $mll_selector;?>{ position: relative;}
         <?php echo $mll_selector;?> li { display: inline-flex; }

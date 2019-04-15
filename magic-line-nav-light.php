@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define('WP_DEBUG', true);
 
-// define( 'magic_line_light', '3.3.14' ); 
-// define( 'magic_line_light', 'Romel' );
+define( 'MAGIC_LINE_LIGHT_VERSION', '0.0.1' ); 
+define( 'MAGIC_LINE_LIGHT_AUTHOR', 'Romel Indemne' );
 
 if(! class_exists('MagicLineNavigationLight') ){
 
@@ -35,8 +35,6 @@ if(! class_exists('MagicLineNavigationLight') ){
             add_action( 'admin_menu', array( $this, 'create_plugin_settings_page' ) );
             add_action( 'admin_init', array( $this, 'setup_sections' ) );
             add_action( 'admin_init', array( $this, 'setup_fields' ) );
-
-            
         }
 
         /**

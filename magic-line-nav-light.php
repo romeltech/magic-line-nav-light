@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define('WP_DEBUG', true);
 
-define( 'magic_line_light', '3.3.14' ); 
-define( 'magic_line_light', 'Romel' );
+// define( 'magic_line_light', '3.3.14' ); 
+// define( 'magic_line_light', 'Romel' );
 
 if(! class_exists('MagicLineNavigationLight') ){
 
@@ -38,6 +38,21 @@ if(! class_exists('MagicLineNavigationLight') ){
 
             
         }
+
+        /**
+         * Activate function
+         */
+        public function activate() {
+
+        }
+
+        /**
+         * Deactivate function
+         */
+        public function deactivate() {
+
+        }
+    
 
 
         /**

@@ -163,15 +163,13 @@ if(! class_exists('MagicLineNavigationLight') ){
         $mll_selector = get_option('mll_nav_selector'); ?>
 
         <!-- Magic Line Navigation -->
+        <?php /*
         <div id="mll" hidden data-mllselector="<?php echo get_option('mll_nav_selector');?>" 
             data-mllwidth="<?php echo get_option('mll_nav_selector').' li.current-menu-item';?>" 
             data-mllposition="<?php echo get_option('mll_nav_selector').' li.current-menu-item';?>">
         </div>
-        <style>
-        <?php echo $mll_selector;?>{ position: relative;}
-        <?php echo $mll_selector;?> li { display: inline-flex; }
-        #magic-line{ position: absolute; bottom: -2px; left: 0; height: 2px; background: #fe4902; margin: 0 auto !important; }
-        <?php echo $mll_selector;?> li ul{ top: 100%;}</style>
+        */ ?>
+
         <script>
             (function($){
                 
@@ -181,23 +179,28 @@ if(! class_exists('MagicLineNavigationLight') ){
                 var $mll_width = $("#mll").data("mllwidth");
                 // var $the_width = $($mll_width).outerWidth(true); 
 
+                var $navParent = $(".magic-line-nav").parent();
+                console.log('This is the Parent '+$navParent);
+                $navParent.addClass('magic-line-nav-style');
+                // $navParent.append("<li class='another-magic-line'></li>")
 
                 var $mll_width = $("#mll").data("mllwidth");
                 var $mll_position = $("#mll").data("mllposition");
 
-                console.log($mll_selector);
-                console.log($mll_width);
-                console.log($mll_position);
+                // console.log($mll_selector);
+                // console.log($mll_width);
+                // console.log($mll_position);
 
-                $($mll_selector).append("<li id='magic-line'></li>");
+                // $($mll_selector).append("<li id='magic-line'></li>");
+                $navParent.append("<li id='magic-line'></li>");
                 var $magicLine = $("#magic-line");
                 $magicLine
                 // .width($($mll_width).width())
-                .width($($mll_width).outerWidth(true))
-                .css("left", $($mll_position).position().left)
+                .width($(".magic-line-nav-style > li").outerWidth(true))
+                .css("left", $navParent.position().left)
                 .data("origLeft", $magicLine.position().left)
                 .data("origWidth", $magicLine.width());
-                $($mll_selector+" > li").hover(function() {
+                $(".magic-line-nav-style > li").hover(function() {
                     $el = $(this);
                     leftPos = $el.position().left;
                     // newWidth = $el.width();
@@ -215,6 +218,12 @@ if(! class_exists('MagicLineNavigationLight') ){
             })(jQuery);
         </script>
         <!-- End of Magic Line Navigation Script -->
+
+        <style>
+        .magic-line-nav-style{ position: relative;}
+        .magic-line-nav-style li { display: inline-flex; }
+        #magic-line{ position: absolute; bottom: -2px; left: 0;right: auto; top: auto; height: 2px; background: #fe4902; margin: 0 auto !important; }
+        .magic-line-nav-style li ul{ top: 100%;}</style>
         <?php
     }
     add_action('wp_footer', 'magic_line_nav_light_script');

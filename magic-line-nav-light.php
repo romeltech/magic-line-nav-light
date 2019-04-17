@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
    exit; // Exit if accessed directly.
 }
 
-define('WP_DEBUG', true);
+// define('WP_DEBUG', true);
 
 if(! class_exists('MagicLineNavigationLight') ){
 

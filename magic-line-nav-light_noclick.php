@@ -1,13 +1,5 @@
 <?php
 /**
-* Plugin Name: Magic Line Navigation Light
-* Plugin URI: https://mel-7.com/
-* Description: A very light plugin that creates Magic Line effect for your navigation.
-* Version: 0.0.1
-* Author: Romel Indemne
-* Author URI: http://mel-7.com/
-* License:     GPL2
-* License URI: https://www.gnu.org/licenses/gpl-2.0.html
 *
 * @package Mel-7
 * tut url = https://www.smashingmagazine.com/2016/04/three-approaches-to-adding-configurable-fields-to-your-plugin/
@@ -50,8 +42,6 @@ if(! class_exists('MagicLineNavigationLight') ){
         public function deactivate() {
 
         }
-    
-
 
         /**
          * settings_link

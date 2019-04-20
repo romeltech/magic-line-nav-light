@@ -1,16 +1,11 @@
 <?php
 /**
-* Plugin Name: Magic Line Navigation Light
-* Plugin URI: https://mel-7.com/
-* Description: A very light plugin that creates Magic Line effect for your navigation.
-* Version: 0.0.1
-* Author: Romel Indemne
-* Author URI: http://mel-7.com/
-* Text Domain: magic-line-light
-* License:           GPL-2.0+
-* License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
 *
 * @package Mel-7
+* tut url = https://www.smashingmagazine.com/2016/04/three-approaches-to-adding-configurable-fields-to-your-plugin/
+* Color Picker
+*    https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
+*    https://code.tutsplus.com/articles/how-to-use-wordpress-color-picker-api--wp-33067
 **/
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -67,7 +62,7 @@ if(! class_exists('MagicLineNavigationLight') ){
          * settings_link
          */
         public function settings_link($links){
-            $settings_link = '<a href="options-general.php?page=magic_line_nav_light">Settings</a>';
+            $settings_link = '<a href="admin.php?page=magic_line_nav_light">Settings</a>';
             $documentation_link = '<a href="https://mel-7.com/" target="__blank">Documentation</a>';
             array_push($links, $settings_link, $documentation_link);
             return $links;
@@ -80,11 +75,13 @@ if(! class_exists('MagicLineNavigationLight') ){
         public function create_plugin_settings_page() {
             // Add the menu item and page
             $page_title = 'Magic Line Navigation';
-            $menu_title = 'Magic Line Navigation';
+            $menu_title = 'Magic Line';
             $capability = 'manage_options';
             $slug = 'magic_line_nav_light';
             $callback = array( $this, 'plugin_settings_page_content' );
-            add_submenu_page( 'options-general.php', $page_title, $menu_title, $capability, $slug, $callback );
+            $icon = 'dashicons-editor-underline';
+            $position = 100;
+            add_menu_page( $page_title, $menu_title, $capability, $slug, $callback, $icon, $position );
         }
 
 
@@ -94,6 +91,7 @@ if(! class_exists('MagicLineNavigationLight') ){
         public function plugin_settings_page_content() { ?>
             <div class="wrap">
                 <h1><?php _e('Magic Line Navigation', 'magic-line-light');?></h1>
+                <?php settings_errors(); ?>
                 <form method="post" action="options.php">
                     <?php
                         settings_fields( 'magic_line_nav_light' );
@@ -196,82 +194,66 @@ if(! class_exists('MagicLineNavigationLight') ){
         $ml_color = get_option('ml_color'); 
         ?>
 
-        <!-- Magic Line Navigation is Active -->
-        <style>.magic-line-nav-parent{ position: relative;}.magic-line-nav-parent li { display: inline-flex; }#magic-line{ position: absolute; bottom: -2px; left: 0;height:<?php echo $ml_height; ?>; background: <?php echo $ml_color;?>; margin: 0 auto !important; }.magic-line-nav-parent li ul{ top: 100%;}@media all and (max-width: 900px) {#magic-line{display:none;}}</style>
-        
-        <script type="text/javascript">
+        <!-- Magic Line Navigation -->
+        <style>
+        .magic-line-nav-parent{ position: relative;}
+        .magic-line-nav-parent li { display: inline-flex; }
+        #magic-line{ position: absolute; bottom: -2px; left: 0;height:<?php echo $ml_height; ?>; background: <?php echo $ml_color;?>; margin: 0 auto !important; }
+        .magic-line-nav-parent li ul{ top: 100%;}
+        @media all and (max-width: 900px) {#magic-line{display:none;}}</style>
+        <script>
             (function($){
                 'use strict';
                 var leftPos, newWidth, $magicLine,
-                $navParent, $magicLineClass, $el, $currentText, $currentNavItem,
-                $curentMenuItemCount, $curentPageParentCount;
+                $navParent, $magicLineClass, $el;
                 
                 // Magic line Class
                 $magicLineClass = $(".magic-line-nav"); 
                 $magicLineClass.parent().addClass('magic-line-nav-parent');
                 
+                // Set the active nav
+                $magicLineClass.addClass('ml-active');
+                
                 // Append Magic line
                 $navParent = $(".magic-line-nav-parent");  
                 $navParent.append("<li id='magic-line'></li>");
                 
-                // Count the li tags if has the correct classes
-                $curentMenuItemCount = $('.magic-line-nav-parent li.current-menu-item').length;
-                $curentPageParentCount = $('.magic-line-nav-parent li.current_page_parent').length;
-
-                console.log('current menu item : '+$curentMenuItemCount);
-                console.log('current Page Count : '+$curentPageParentCount);
-                // if li have classes of current-menu-item and current_page_parent
-                if($curentMenuItemCount == 0 && $curentPageParentCount == 0 ){
-                    // if no classes magicline will initiate on the li with .magic-line-nav class
-                    $currentText = $('.magic-line-nav-parent li.magic-line-nav a');
-                    $currentNavItem = $('.magic-line-nav-parent li.magic-line-nav');
-                }else if($curentMenuItemCount == 0 && $curentPageParentCount > 0 ){
-                    // if current-menu-item is not present and has current_page_parent magic line will initiate in current_page_parent 
-                    $currentText = $('.magic-line-nav-parent li.current_page_parent a');
-                    $currentNavItem = $('.magic-line-nav-parent li.current_page_parent');                        
-                }else{
-                    // Magic line will initiate in current-menu-li
-                    $currentText = $('.magic-line-nav-parent li.current-menu-item a');
-                    $currentNavItem = $('.magic-line-nav-parent li.current-menu-item');
-                }
-
-                // Check if in custom post type page
-                
-
                 // Set Magic line initial state
                 $magicLine = $('#magic-line');
-                $magicLine.width($currentText.width())
-                    .css('left', $currentNavItem.position().left)
+                $magicLine.width($('.magic-line-nav-parent li.ml-active').width())
+                    .css('left', $('.magic-line-nav-parent li.ml-active a').position().left)
                     .data('origLeft', $magicLine.position().left)
                     .data('origWidth', $magicLine.width());
+
+                // $('.magic-line-nav-parent li a').click(function() {
+                //     var $this = $(this);
+                //     $this.parent().addClass('ml-active').siblings().removeClass('ml-active');
+                //     $magicLine
+                //     .data('origLeft', $this.position().left)
+                //     .data('origWidth', $this.parent().width());
+                //     return false;
+                // });
+
                 // Magic line on hover
                 $(".magic-line-nav-parent > li").hover(function() {
                     $el = $(this);
                     leftPos = $el.position().left;
                     newWidth = $el.width();
+                    // newWidth = $el.outerWidth(true);
                     $magicLine.stop().animate({
                         left: leftPos,
                         width: newWidth
+                // }, 1000, 'swing');
                 });
                 }, function() {
                     $magicLine.stop().animate({
                         left: $magicLine.data("origLeft"),
                         width: $magicLine.data("origWidth")
                     });    
-                });
-
-                $(".magic-line-nav-parent li a").click(function() {
-                    $(this).parent().siblings().removeClass("current-menu-item");
-                    $(this).parent().addClass("clicked-menu-item current-menu-item");
-                    $magicLine
-                    .width($(".magic-line-nav-parent li.clicked-menu-item a").width())
-                    .css("left", $(".magic-line-nav-parent li.clicked-menu-item").position().left)
-                    .data("origLeft", $magicLine.position().left)
-                    .data("origWidth", $magicLine.width());
+                    console.log($magicLine.data("origLeft"));
                 });
 
             })(jQuery);
-        
         </script>
         <!-- End of Magic Line Navigation Script -->
         <?php

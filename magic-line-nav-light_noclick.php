@@ -169,50 +169,43 @@ if(! class_exists('MagicLineNavigationLight') ){
             data-mllposition="<?php echo get_option('mll_nav_selector').' li.current-menu-item';?>">
         </div>
         */ ?>
-        <style>
-        .magic-line-nav-parent{ position: relative;}
-        .magic-line-nav-parent li { display: inline-flex; }
-        #magic-line{ position: absolute; bottom: -2px; left: 0;height: 2px; background: #fe4902; margin: 0 auto !important; }
-        .magic-line-nav-parent li ul{ top: 100%;}</style>
+
         <script>
             (function($){
-                'use strict';
-                var leftPos, newWidth, $magicLine,
-                $navParent, $magicLineClass, $el;
                 
-                // Magic line Class
-                $magicLineClass = $(".magic-line-nav"); 
-                $magicLineClass.parent().addClass('magic-line-nav-parent');
+                var $mll_selector = $("#mll").data("mllselector");
+
                 
-                // Set the active nav
-                $magicLineClass.addClass('ml-active');
-                
-                // Append Magic line
-                $navParent = $(".magic-line-nav-parent");  
+                var $mll_width = $("#mll").data("mllwidth");
+                // var $the_width = $($mll_width).outerWidth(true); 
+
+                var $navParent = $(".magic-line-nav").parent();
+                var $mainNav = $(".magic-line-nav > li a");
+                console.log('This is the Parent '+$navParent);
+                $navParent.addClass('magic-line-nav-style');
+                // $navParent.append("<li class='another-magic-line'></li>")
+
+                var $mll_width = $("#mll").data("mllwidth");
+                var $mll_position = $("#mll").data("mllposition");
+
+                // console.log($mll_selector);
+                // console.log($mll_width);
+                // console.log($mll_position);
+
+                // $($mll_selector).append("<li id='magic-line'></li>");
                 $navParent.append("<li id='magic-line'></li>");
-                
-                // Set Magic line initial state
-                $magicLine = $('#magic-line');
-                $magicLine.width($('.magic-line-nav-parent li.ml-active').width())
-                    .css('left', $('.magic-line-nav-parent li.ml-active a').position().left)
-                    .data('origLeft', $magicLine.position().left)
-                    .data('origWidth', $magicLine.width());
-
-                // $('.magic-line-nav-parent li a').click(function() {
-                //     var $this = $(this);
-                //     $this.parent().addClass('ml-active').siblings().removeClass('ml-active');
-                //     $magicLine
-                //     .data('origLeft', $this.position().left)
-                //     .data('origWidth', $this.parent().width());
-                //     return false;
-                // });
-
-                // Magic line on hover
-                $(".magic-line-nav-parent > li").hover(function() {
+                var $magicLine = $("#magic-line");
+                $magicLine
+                // .width($($mll_width).width())
+                .width($(".magic-line-nav-style > li").outerWidth(true))
+                .css("left", $mainNav.position().left)
+                .data("origLeft", $magicLine.position().left)
+                .data("origWidth", $magicLine.width());
+                $(".magic-line-nav-style > li").hover(function() {
                     $el = $(this);
                     leftPos = $el.position().left;
-                    newWidth = $el.width();
-                    // newWidth = $el.outerWidth(true);
+                    // newWidth = $el.width();
+                    newWidth = $el.outerWidth(true);
                     $magicLine.stop().animate({
                         left: leftPos,
                         width: newWidth
@@ -222,12 +215,16 @@ if(! class_exists('MagicLineNavigationLight') ){
                         left: $magicLine.data("origLeft"),
                         width: $magicLine.data("origWidth")
                     });    
-                    console.log($magicLine.data("origLeft"));
                 });
-
             })(jQuery);
         </script>
         <!-- End of Magic Line Navigation Script -->
+
+        <style>
+        .magic-line-nav-style{ position: relative;}
+        .magic-line-nav-style li { display: inline-flex; }
+        #magic-line{ position: absolute; bottom: -2px; left: 0;right: auto; top: auto; height: 2px; background: #fe4902; margin: 0 auto !important; }
+        .magic-line-nav-style li ul{ top: 100%;}</style>
         <?php
     }
     add_action('wp_footer', 'magic_line_nav_light_script');

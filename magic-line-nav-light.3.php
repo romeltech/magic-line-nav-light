@@ -169,29 +169,23 @@ if(! class_exists('MagicLineNavigationLight') ){
             data-mllposition="<?php echo get_option('mll_nav_selector').' li.current-menu-item';?>">
         </div>
         */ ?>
-        <style>
-        .magic-line-nav-parent{ position: relative;}
-        .magic-line-nav-parent li { display: inline-flex; }
-        #magic-line{ position: absolute; bottom: -2px; left: 0;height: 2px; background: #fe4902; margin: 0 auto !important; }
-        .magic-line-nav-parent li ul{ top: 100%;}</style>
+
         <script>
             (function($){
                 'use strict';
                 var leftPos, newWidth, $magicLine,
                 $navParent, $magicLineClass, $el;
                 
-                // Magic line Class
+                // Append magicline
                 $magicLineClass = $(".magic-line-nav"); 
                 $magicLineClass.parent().addClass('magic-line-nav-parent');
                 
                 // Set the active nav
                 $magicLineClass.addClass('ml-active');
                 
-                // Append Magic line
                 $navParent = $(".magic-line-nav-parent");  
                 $navParent.append("<li id='magic-line'></li>");
                 
-                // Set Magic line initial state
                 $magicLine = $('#magic-line');
                 $magicLine.width($('.magic-line-nav-parent li.ml-active').width())
                     .css('left', $('.magic-line-nav-parent li.ml-active a').position().left)
@@ -206,8 +200,23 @@ if(! class_exists('MagicLineNavigationLight') ){
                 //     .data('origWidth', $this.parent().width());
                 //     return false;
                 // });
+                // var leftPos, newWidth, $magicLine;
+                // var $navParent = $(".magic-line-nav").parent();
+                // $navParent.addClass('magic-line-nav-style');
+                // var $mainNav = $(".magic-line-nav > li");
 
-                // Magic line on hover
+                // // $($mll_selector).append("<li id='magic-line'></li>");
+                // $navParent.append("<li id='magic-line'></li>");
+                // $magicLine = $("#magic-line");
+
+                // $magicLine
+                // // .width($($mll_width).width())
+                // // .width($(".magic-line-nav-style > li").outerWidth(true))
+                // .width($(".magic-line-nav-parent > li").width())
+                // .css("left", $mainNav.position().left)
+                // .data("origLeft", $magicLine.position().left)
+                // .data("origWidth", $magicLine.width());
+
                 $(".magic-line-nav-parent > li").hover(function() {
                     $el = $(this);
                     leftPos = $el.position().left;
@@ -219,15 +228,94 @@ if(! class_exists('MagicLineNavigationLight') ){
                 });
                 }, function() {
                     $magicLine.stop().animate({
-                        left: $magicLine.data("origLeft"),
+                        // left: $magicLine.data("origLeft"),
+                        left: 0,
                         width: $magicLine.data("origWidth")
                     });    
                     console.log($magicLine.data("origLeft"));
                 });
 
+
+                ////////////////////// old
+                // var leftPos, newWidth, $magicLine;
+                // var $navParent = $(".magic-line-nav").parent();
+                // $navParent.addClass('magic-line-nav-style');
+                // var $mainNav = $(".magic-line-nav > li");
+
+                // // $($mll_selector).append("<li id='magic-line'></li>");
+                // $navParent.append("<li id='magic-line'></li>");
+                // $magicLine = $("#magic-line");
+                // $magicLine
+                // // .width($($mll_width).width())
+                // // .width($(".magic-line-nav-style > li").outerWidth(true))
+                // .width($(".magic-line-nav-style > li").width())
+                // .css("left", $mainNav.position().left)
+                // .data("origLeft", $magicLine.position().left)
+                // .data("origWidth", $magicLine.width());
+                // $(".magic-line-nav-style > li").hover(function() {
+                //     $el = $(this);
+                //     leftPos = $el.position().left;
+                //     // newWidth = $el.width();
+                //     newWidth = $el.outerWidth(true);
+                //     $magicLine.stop().animate({
+                //         left: leftPos,
+                //         width: newWidth
+                // });
+                // }, function() {
+                //     $magicLine.stop().animate({
+                //         left: $magicLine.data("origLeft"),
+                //         width: $magicLine.data("origWidth")
+                //     });    
+                // });
+
+
+                ///////////////////// new
+                // Append magicline
+                // $magicLineClass = $(".magic-line-nav"); 
+                // $magicLineClass.parent().addClass('magic-line-nav-parent');
+                // $magicLineClass.addClass('ml-active');
+                // $navParent = $(".magic-line-nav-parent");  
+                // $navParent.append("<li id='magic-line'></li>");
+                
+                // $magicLine = $('#magic-line');
+                // $magicLine.width($('.ml-active').width())
+                //     .css('left', $('.ml-active a').position().left)
+                //     .data('origLeft', $magicLine.position().left)
+                //     .data('origWidth', $magicLine.width());
+
+                // // $('.magic-line-nav-parent li a').click(function() {
+                // //     var $this = $(this);
+                // //     $this.parent().addClass('ml-active').siblings().removeClass('ml-active');
+                // //     $magicLine
+                // //     .data('origLeft', $this.position().left)
+                // //     .data('origWidth', $this.parent().width());
+                // //     return false;
+                // // });
+
+                // /*Magicline hover animation*/
+                // $('.magic-line-nav-parent li').find('a').hover(function() {
+                //     var $thisBar = $(this);
+                //     leftPos = $thisBar.position().left;
+                //     newWidth = $thisBar.parent().width();
+                //     $magicLine.css({
+                //     "left": leftPos,
+                //     "width": newWidth
+                //     });
+                // }, function() {
+                //     $magicLine.css({
+                //     "left": $magicLine.data('origLeft'),
+                //     "width": $magicLine.data('origWidth')
+                //     });
+                // });
             })(jQuery);
         </script>
         <!-- End of Magic Line Navigation Script -->
+
+        <style>
+        .magic-line-nav-parent{ position: relative;}
+        .magic-line-nav-parent li { display: inline-flex; }
+        #magic-line{ position: absolute; bottom: -2px; left: 0;right: auto; top: auto; height: 2px; background: #fe4902; margin: 0 auto !important; }
+        .magic-line-nav-parent li ul{ top: 100%;}</style>
         <?php
     }
     add_action('wp_footer', 'magic_line_nav_light_script');

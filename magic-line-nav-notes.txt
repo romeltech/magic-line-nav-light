@@ -1,0 +1,17 @@
+css customization
+ color - colorpicker
+ height - text
+ border-radius - text - later
+
+Options
+ include padding or text only
+  outerwidth or width - future options
+
+Admin UI
+
+Donate to Paypal and cofti buttons
+
+add default values
+remove 2px
+
+Add field validations

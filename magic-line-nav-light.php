@@ -92,6 +92,38 @@ if(! class_exists('MagicLineNavigationLight') ){
          * Plugin Page Content
          */
         public function plugin_settings_page_content() { ?>
+            <style>
+                .dntn-flex{
+                    display:-webkit-box;
+                    display:-ms-flexbox;
+                    display:flex;
+                    -webkit-box-orient: horizontal;
+                    -webkit-box-direction: normal;
+                        -ms-flex-direction: row;
+                            flex-direction: row;
+                    -ms-flex-wrap: wrap;
+                        flex-wrap: wrap;
+                    -webkit-box-align: center;
+                        -ms-flex-align: center;
+                            align-items: center;
+                    -webkit-box-pack: start;
+                        -ms-flex-pack: start;
+                            justify-content: flex-start;
+                }
+                .dntn-item{
+                    width: 300px;
+                    padding: 15px;
+                    text-align: center;
+                    background-color: #ffffff;
+                    height: 100px;
+                    margin-right: 30px;
+                    -webkit-box-shadow: 0px 0px 10px #e0e0e0;
+                            box-shadow: 0px 0px 10px #e0e0e0;
+                }
+                .dntn-item h4{
+                    margin-top: 0;
+                }
+            </style>
             <div class="wrap">
                 <h1><?php _e('Magic Line Navigation', 'magic-line-light');?></h1>
                 <form method="post" action="options.php">
@@ -102,15 +134,25 @@ if(! class_exists('MagicLineNavigationLight') ){
                     ?>
                 </form>
             </div>
-            
+
             <div class="wrap">
-                <p><?php _e('Enjoying the plugin? I accept donations :).', 'magic-line-light');?></p>
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                <input type="hidden" name="cmd" value="_s-xclick" />
-                <input type="hidden" name="hosted_button_id" value="RDB9U52ESMPB4" />
-                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-                <img alt="" border="0" src="https://www.paypal.com/en_PH/i/scr/pixel.gif" width="1" height="1" />
-                </form>
+                <h3>Enjoying the plugin? </h3>
+                <div class="dntn-flex">
+
+                    <div class="dntn-item">
+                    <h4><?php _e('I accept donations.', 'magic-line-light');?></h4>
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick" />
+                    <input type="hidden" name="hosted_button_id" value="RDB9U52ESMPB4" />
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                    <img alt="" border="0" src="https://www.paypal.com/en_PH/i/scr/pixel.gif" width="1" height="1" />
+                    </form>
+                    </div>
+                    <div class="dntn-item">
+                    <h4><?php _e('Or a drink.', 'magic-line-light');?></h4>
+                    <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Buy me a drink', '#46b798', 'C0C5RTHE');kofiwidget2.draw();</script> 
+                    </div>
+                </div>
             </div>
 
 
@@ -171,7 +213,7 @@ if(! class_exists('MagicLineNavigationLight') ){
                     'placeholder' => 'Project',
                     'helper' => null,
                     'supplemental' => 'Input your Custom Post type slugs that are present on the navigation e.g. project. If more than one, Separated by comma(,) without spaces e.g. project,location,person',
-                    'default' => '2px'
+                    'default' => ''
                 )
             );
             foreach( $fields as $field ){
@@ -242,9 +284,13 @@ if(! class_exists('MagicLineNavigationLight') ){
         // echo $thecptArr[1];
 
         ?>
+        <!-- .magic-line-nav-parent li {padding-right: 40px;}
+        .magic-line-nav-parent li a{padding-right: 0;} -->
 
         <!-- Magic Line Navigation is Active -->
-        <style>.magic-line-nav-parent{ position: relative;}.magic-line-nav-parent li { display: inline-flex; }#magic-line{ position: absolute; bottom: -2px; left: 0;height:<?php echo $ml_height; ?>; background: <?php echo $ml_color;?>; margin: 0 auto !important; }.magic-line-nav-parent li ul{ top: 100%;}@media all and (max-width: 900px) {#magic-line{display:none;}}</style>
+        <!-- .magic-line-nav-parent li { display: -webkit-inline-box;display: -ms-inline-flexbox;display: inline-flex; padding-right:15px; }.magic-line-nav-parent li a{padding:0;margin:0;} -->
+
+        <style>.magic-line-nav-parent{ position: relative;}.magic-line-nav-parent li { display: -webkit-inline-box;display: -ms-inline-flexbox;display: inline-flex;}#magic-line{ position: absolute; bottom: -2px; left: 0;height:<?php echo $ml_height; ?>; background: <?php echo $ml_color;?>; margin: 0 auto !important; }.magic-line-nav-parent li ul{ top: 100%;}@media all and (max-width: 900px) {#magic-line{display:none;}}</style>
         
         <script type="text/javascript">
             (function($){
@@ -316,6 +362,7 @@ if(! class_exists('MagicLineNavigationLight') ){
                     $el = $(this);
                     leftPos = $el.position().left;
                     newWidth = $el.width();
+                    // newWidth = $el.outerWidth(true);
                     $magicLine.stop().animate({
                         left: leftPos,
                         width: newWidth
@@ -335,6 +382,7 @@ if(! class_exists('MagicLineNavigationLight') ){
                     .css("left", $(".magic-line-nav-parent li.clicked-menu-item").position().left)
                     .data("origLeft", $magicLine.position().left)
                     .data("origWidth", $magicLine.width());
+                    // .data("origWidth", $magicLine.outerWidth(true));
                 });
 
             })(jQuery);

@@ -101,12 +101,26 @@ if(! class_exists('MagicLineNavigationLight') ){
                         submit_button();
                     ?>
                 </form>
-            </div> <?php
+            </div>
+            
+            <div class="wrap">
+                <p><?php _e('Enjoying the plugin? I accept donations :).', 'magic-line-light');?></p>
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick" />
+                <input type="hidden" name="hosted_button_id" value="RDB9U52ESMPB4" />
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                <img alt="" border="0" src="https://www.paypal.com/en_PH/i/scr/pixel.gif" width="1" height="1" />
+                </form>
+            </div>
+
+
+            <?php
         }
 
         public function setup_sections() {
             add_settings_section( 'magic_line_nav_color', 'Settings', array( $this, 'section_callback' ), 'magic_line_nav_light' );
             add_settings_section( 'magic_line_nav_height', null, array( $this, 'section_callback' ), 'magic_line_nav_light' );
+            add_settings_section( 'magic_line_nav_cpt', null, array( $this, 'section_callback' ), 'magic_line_nav_light' );
         }
 
         public function section_callback( $arguments ) {
@@ -117,6 +131,10 @@ if(! class_exists('MagicLineNavigationLight') ){
                 case 'magic_line_nav_height':
                     // echo 'Here you can add the navigation you want to have a magic line effect';
                     break;
+                case 'magic_line_nav_cpt':
+                    // echo 'Here you can add the navigation you want to have a magic line effect';
+                break;
+
             }
         }
 
@@ -142,6 +160,17 @@ if(! class_exists('MagicLineNavigationLight') ){
                     'placeholder' => 'Add your Navigation Selector',
                     'helper' => null,
                     'supplemental' => 'Input the magicline height in px e.g. 2px',
+                    'default' => '2px'
+                ),
+                array(
+                    'uid' => 'ml_cpt',
+                    'label' => 'Custom Post Type',
+                    'section' => 'magic_line_nav_height',
+                    'type' => 'text',
+                    'options' => false,
+                    'placeholder' => 'Project',
+                    'helper' => null,
+                    'supplemental' => 'Input your Custom Post type slugs that are present on the navigation e.g. project. If more than one, Separated by comma(,) without spaces e.g. project,location,person',
                     'default' => '2px'
                 )
             );
@@ -192,8 +221,26 @@ if(! class_exists('MagicLineNavigationLight') ){
      */
     function magic_line_nav_light_script() {
 
+        $ml_cpt = get_option('ml_cpt'); 
         $ml_height = get_option('ml_height'); 
-        $ml_color = get_option('ml_color'); 
+        $ml_color = get_option('ml_color');
+        
+        // Arrays
+        $cptArr = array();
+        $thecptArr = array();
+        
+        // Add a prefix single to check the page
+        $cptArr = explode(",",$ml_cpt);        
+        foreach ($cptArr as &$value) {
+            $value = 'single-'.$value;
+        }
+
+        $cptCount = count($cptArr);
+        for ($i = 0; $i < $cptCount; $i++) {
+            array_push($thecptArr, $cptArr[$i]);
+        }
+        // echo $thecptArr[1];
+
         ?>
 
         <!-- Magic Line Navigation is Active -->
@@ -202,10 +249,14 @@ if(! class_exists('MagicLineNavigationLight') ){
         <script type="text/javascript">
             (function($){
                 'use strict';
-                var leftPos, newWidth, $magicLine,
+
+                // Variables used
+                var leftPos, newWidth, $magicLine, cpts,
                 $navParent, $magicLineClass, $el, $currentText, $currentNavItem,
                 $curentMenuItemCount, $curentPageParentCount;
                 
+                cpts = <?php echo json_encode($cptArr); ?>;
+
                 // Magic line Class
                 $magicLineClass = $(".magic-line-nav"); 
                 $magicLineClass.parent().addClass('magic-line-nav-parent');
@@ -213,30 +264,46 @@ if(! class_exists('MagicLineNavigationLight') ){
                 // Append Magic line
                 $navParent = $(".magic-line-nav-parent");  
                 $navParent.append("<li id='magic-line'></li>");
-                
-                // Count the li tags if has the correct classes
-                $curentMenuItemCount = $('.magic-line-nav-parent li.current-menu-item').length;
-                $curentPageParentCount = $('.magic-line-nav-parent li.current_page_parent').length;
 
-                console.log('current menu item : '+$curentMenuItemCount);
-                console.log('current Page Count : '+$curentPageParentCount);
-                // if li have classes of current-menu-item and current_page_parent
-                if($curentMenuItemCount == 0 && $curentPageParentCount == 0 ){
-                    // if no classes magicline will initiate on the li with .magic-line-nav class
-                    $currentText = $('.magic-line-nav-parent li.magic-line-nav a');
-                    $currentNavItem = $('.magic-line-nav-parent li.magic-line-nav');
-                }else if($curentMenuItemCount == 0 && $curentPageParentCount > 0 ){
-                    // if current-menu-item is not present and has current_page_parent magic line will initiate in current_page_parent 
-                    $currentText = $('.magic-line-nav-parent li.current_page_parent a');
-                    $currentNavItem = $('.magic-line-nav-parent li.current_page_parent');                        
-                }else{
-                    // Magic line will initiate in current-menu-li
-                    $currentText = $('.magic-line-nav-parent li.current-menu-item a');
-                    $currentNavItem = $('.magic-line-nav-parent li.current-menu-item');
+                // Check if custom post type page
+                // console.log(cpts.length);
+                var $cptCount = 0;
+                var $cptBodyClass;
+                for ( var i = 0; i < cpts.length; i++ ){
+                    if ( $('body').hasClass( cpts[i] ) ){
+                        // console.log('the class: '+cpts[i]);
+                        // e.g. nav-single-project
+                        $cptBodyClass = 'nav-'+cpts[i];
+                        $cptCount++;
+                    }
                 }
+                // console.log('cpt body class : '+$cptBodyClass);
 
-                // Check if in custom post type page
-                
+                if($cptCount > 0){
+                    $currentText = $('.magic-line-nav-parent li.'+$cptBodyClass+' a');
+                    $currentNavItem = $('.magic-line-nav-parent li.'+$cptBodyClass);
+                }else{
+                    // Count the li tags if has the correct classes
+                    $curentMenuItemCount = $('.magic-line-nav-parent li.current-menu-item').length;
+                    $curentPageParentCount = $('.magic-line-nav-parent li.current_page_parent').length;
+
+                    // console.log('current menu item : '+$curentMenuItemCount);
+                    // console.log('current Page Count : '+$curentPageParentCount);
+                    // if li have classes of current-menu-item and current_page_parent
+                    if($curentMenuItemCount == 0 && $curentPageParentCount == 0 ){
+                        // if no classes magicline will initiate on the li with .magic-line-nav class
+                        $currentText = $('.magic-line-nav-parent li.magic-line-nav a');
+                        $currentNavItem = $('.magic-line-nav-parent li.magic-line-nav');
+                    }else if($curentMenuItemCount == 0 && $curentPageParentCount > 0 ){
+                        // if current-menu-item is not present and has current_page_parent magic line will initiate in current_page_parent 
+                        $currentText = $('.magic-line-nav-parent li.current_page_parent a');
+                        $currentNavItem = $('.magic-line-nav-parent li.current_page_parent');                        
+                    }else{
+                        // Magic line will initiate in current-menu-li
+                        $currentText = $('.magic-line-nav-parent li.current-menu-item a');
+                        $currentNavItem = $('.magic-line-nav-parent li.current-menu-item');
+                    }
+                }
 
                 // Set Magic line initial state
                 $magicLine = $('#magic-line');
@@ -252,7 +319,7 @@ if(! class_exists('MagicLineNavigationLight') ){
                     $magicLine.stop().animate({
                         left: leftPos,
                         width: newWidth
-                });
+                    });
                 }, function() {
                     $magicLine.stop().animate({
                         left: $magicLine.data("origLeft"),

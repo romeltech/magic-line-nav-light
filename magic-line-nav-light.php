@@ -222,7 +222,7 @@ if(! class_exists('MagicLineNavigationLight') ){
         <style>
         .magic-line-nav-style{ position: relative;}
         .magic-line-nav-style li { display: inline-flex; }
-        #magic-line{ position: absolute; bottom: -2px; left: 0;right: auto; top: auto; height: 2px; background: #fe4902; margin: 0 auto !important; }
+        .magic-line-nav-style li#magic-line{ position: absolute; bottom: -2px; left: 0;right: auto; top: auto; height: 2px; background: #fe4902; margin: 0 auto !important; }
         .magic-line-nav-style li ul{ top: 100%;}</style>
         <?php
     }

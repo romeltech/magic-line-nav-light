@@ -6,6 +6,7 @@
 * Color Picker
 *    https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
 *    https://code.tutsplus.com/articles/how-to-use-wordpress-color-picker-api--wp-33067
+*    http://jsfiddle.net/BXnXJ/
 **/
 
 if ( ! defined( 'ABSPATH' ) ) {

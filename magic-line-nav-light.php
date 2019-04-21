@@ -141,10 +141,10 @@ if(! class_exists('MagicLineNavigationLight') ){
 
                     <div class="dntn-item">
                     <h4><?php _e('I accept donations.', 'magic-line-light');?></h4>
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post"  target="_blank" >
                     <input type="hidden" name="cmd" value="_s-xclick" />
                     <input type="hidden" name="hosted_button_id" value="RDB9U52ESMPB4" />
-                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button"/>
                     <img alt="" border="0" src="https://www.paypal.com/en_PH/i/scr/pixel.gif" width="1" height="1" />
                     </form>
                     </div>
@@ -389,15 +389,6 @@ if(! class_exists('MagicLineNavigationLight') ){
         
         </script>
         <!-- End of Magic Line Navigation Script -->
-<<<<<<< HEAD
-
-        <style>
-        .magic-line-nav-style{ position: relative;}
-        .magic-line-nav-style li { display: inline-flex; }
-        .magic-line-nav-style li#magic-line{ position: absolute; bottom: -2px; left: 0;right: auto; top: auto; height: 2px; background: #fe4902; margin: 0 auto !important; }
-        .magic-line-nav-style li ul{ top: 100%;}</style>
-=======
->>>>>>> cb7fe75a3e087c651fa9c8607165b7c8de62d548
         <?php
     }
     add_action('wp_footer', 'magic_line_nav_light_script');

@@ -1,17 +1,12 @@
 css customization
- color - colorpicker
- height - text
- border-radius - text - later
+1 color - colorpicker
+1 height - text
+- border-radius - text - later
+0 add bottom option in px
+0 add form validations
 
 Options
- include padding or text only
-  outerwidth or width - future options
+0 Calculate the padding and margin and add to left position
 
 Admin UI
-
-Donate to Paypal and cofti buttons
-
-add default values
-remove 2px
-
-Add field validations
+1 Donate to Paypal and cofti buttons

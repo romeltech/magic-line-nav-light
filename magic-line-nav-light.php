@@ -133,28 +133,25 @@ if(! class_exists('MagicLineNavigationLight') ){
                         submit_button();
                     ?>
                 </form>
-            </div>
-
-            <div class="wrap">
-                <h3>Enjoying the plugin? </h3>
-                <div class="dntn-flex">
-
-                    <div class="dntn-item">
-                    <h4><?php _e('I accept donations.', 'magic-line-light');?></h4>
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post"  target="_blank" >
-                    <input type="hidden" name="cmd" value="_s-xclick" />
-                    <input type="hidden" name="hosted_button_id" value="RDB9U52ESMPB4" />
-                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button"/>
-                    <img alt="" border="0" src="https://www.paypal.com/en_PH/i/scr/pixel.gif" width="1" height="1" />
-                    </form>
-                    </div>
-                    <div class="dntn-item">
-                    <h4><?php _e('Or a drink.', 'magic-line-light');?></h4>
-                    <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Buy me a drink', '#46b798', 'C0C5RTHE');kofiwidget2.draw();</script> 
+                <div class="donation-wrapper">
+                    <h3>Enjoying the plugin? </h3>
+                    <div class="dntn-flex">
+                        <div class="dntn-item">
+                        <h4><?php _e('I accept donations.', 'magic-line-light');?></h4>
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post"  target="_blank" >
+                        <input type="hidden" name="cmd" value="_s-xclick" />
+                        <input type="hidden" name="hosted_button_id" value="RDB9U52ESMPB4" />
+                        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button"/>
+                        <img alt="" border="0" src="https://www.paypal.com/en_PH/i/scr/pixel.gif" width="1" height="1" />
+                        </form>
+                        </div>
+                        <div class="dntn-item">
+                        <h4><?php _e('Or a drink.', 'magic-line-light');?></h4>
+                        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Buy me a drink', '#46b798', 'C0C5RTHE');kofiwidget2.draw();</script> 
+                        </div>
                     </div>
                 </div>
             </div>
-
 
             <?php
         }
@@ -162,6 +159,8 @@ if(! class_exists('MagicLineNavigationLight') ){
         public function setup_sections() {
             add_settings_section( 'magic_line_nav_color', 'Settings', array( $this, 'section_callback' ), 'magic_line_nav_light' );
             add_settings_section( 'magic_line_nav_height', null, array( $this, 'section_callback' ), 'magic_line_nav_light' );
+            add_settings_section( 'magic_line_nav_border_radius', null, array( $this, 'section_callback' ), 'magic_line_nav_light' );
+            add_settings_section( 'magic_line_nav_bottom', null, array( $this, 'section_callback' ), 'magic_line_nav_light' );
             add_settings_section( 'magic_line_nav_cpt', null, array( $this, 'section_callback' ), 'magic_line_nav_light' );
         }
 
@@ -171,17 +170,23 @@ if(! class_exists('MagicLineNavigationLight') ){
                     // echo 'Set the Magicline color';
                     break;
                 case 'magic_line_nav_height':
-                    // echo 'Here you can add the navigation you want to have a magic line effect';
+                    // echo 'Set the Magicline height';
+                    break;
+                case 'magic_line_nav_border_radius':
+                    // echo 'Set the Magicline border radius';
+                    break;
+                case 'magic_line_nav_bottom':
+                    // echo 'Set the Magicline bottom space';
                     break;
                 case 'magic_line_nav_cpt':
                     // echo 'Here you can add the navigation you want to have a magic line effect';
-                break;
-
+                    break;
             }
         }
 
         public function setup_fields() {
             $fields = array(
+                // Color
                 array(
                     'uid' => 'ml_color',
                     'label' => 'Color',
@@ -193,6 +198,7 @@ if(! class_exists('MagicLineNavigationLight') ){
                     'supplemental' => 'Set the magicline color',
                     'default' => '#fe4902'
                 ),
+                // Height
                 array(
                     'uid' => 'ml_height',
                     'label' => 'Height',
@@ -204,13 +210,37 @@ if(! class_exists('MagicLineNavigationLight') ){
                     'supplemental' => 'Input the magicline height in px e.g. 2px',
                     'default' => '2px'
                 ),
+                // Border Radius
+                array(
+                    'uid' => 'ml_border_radius',
+                    'label' => 'Border Radius',
+                    'section' => 'magic_line_nav_border_radius',
+                    'type' => 'text',
+                    'options' => false,
+                    'placeholder' => '0',
+                    'helper' => null,
+                    'supplemental' => 'Input the magicline border radius in px e.g. 2px',
+                    'default' => '0'
+                ),
+                array(
+                    'uid' => 'ml_bottom',
+                    'label' => 'Bottom',
+                    'section' => 'magic_line_nav_bottom',
+                    'type' => 'text',
+                    'options' => false,
+                    'placeholder' => '0',
+                    'helper' => null,
+                    'supplemental' => 'Input the magicline bottom space e.g. -5px',
+                    'default' => '-2px'
+                ),
+                // CPT
                 array(
                     'uid' => 'ml_cpt',
                     'label' => 'Custom Post Type',
                     'section' => 'magic_line_nav_height',
                     'type' => 'text',
                     'options' => false,
-                    'placeholder' => 'Project',
+                    'placeholder' => 'product',
                     'helper' => null,
                     'supplemental' => 'Input your Custom Post type slugs that are present on the navigation e.g. project. If more than one, Separated by comma(,) without spaces e.g. project,location,person',
                     'default' => ''
@@ -252,6 +282,48 @@ if(! class_exists('MagicLineNavigationLight') ){
 
         }
 
+        /**
+         * Form Validations
+         */
+        public function validate_options( $fields ) { 
+     
+            $valid_fields = array();
+             
+            // Validate Title Field
+            $title = trim( $fields['title'] );
+            $valid_fields['title'] = strip_tags( stripslashes( $title ) );
+             
+            // Validate Background Color
+            $checkmlcolor = trim( $fields['ml_color'] );
+            $checkmlcolor = strip_tags( stripslashes( $checkmlcolor ) );
+             
+            // Check if is a valid hex color
+            if( FALSE === $this->check_color( $checkmlcolor ) ) {
+             
+                // Set the error message
+                add_settings_error( 'magic_line_nav_light', 'ml_color_error', 'Insert a color format, please use hex color e.g. #000000.', 'error' ); // $setting, $code, $message, $type
+                 
+                // Get the previous valid value
+                $valid_fields['ml_color'] = $this->options['ml_color'];
+             
+            } else {
+             
+                $valid_fields['ml_color'] = $checkmlcolor;  
+             
+            }
+             
+            return apply_filters( 'validate_options', $valid_fields, $fields);
+        }
+        
+        public function check_color( $value ) { 
+     
+            if ( preg_match( '/^#[a-f0-9]{6}$/i', $value ) ) { // if user insert a HEX color with #     
+                return true;
+            }
+             
+            return false;
+        }
+
     }
 
     if( class_exists('MagicLineNavigationLight') ){
@@ -263,9 +335,12 @@ if(! class_exists('MagicLineNavigationLight') ){
      */
     function magic_line_nav_light_script() {
 
-        $ml_cpt = get_option('ml_cpt'); 
-        $ml_height = get_option('ml_height'); 
-        $ml_color = get_option('ml_color');
+
+        $ml_cpt = get_option('ml_cpt') !== '' ? get_option('ml_cpt') : "";
+        $ml_height = get_option('ml_height') !== '' ? get_option('ml_height') : "2px";
+        $ml_color = get_option('ml_color') !== '' ? get_option('ml_color') : "#7200af";
+        $ml_border_radius = get_option('ml_border_radius') !== '' ? get_option('ml_border_radius') : "0";
+        $ml_bottom = get_option('ml_bottom') !== '' ? get_option('ml_bottom') : "-2px";
         
         // Arrays
         $cptArr = array();
@@ -290,7 +365,7 @@ if(! class_exists('MagicLineNavigationLight') ){
         <!-- Magic Line Navigation is Active -->
         <!-- .magic-line-nav-parent li { display: -webkit-inline-box;display: -ms-inline-flexbox;display: inline-flex; padding-right:15px; }.magic-line-nav-parent li a{padding:0;margin:0;} -->
 
-        <style>.magic-line-nav-parent{ position: relative;}.magic-line-nav-parent li { display: -webkit-inline-box;display: -ms-inline-flexbox;display: inline-flex;}#magic-line{ position: absolute; bottom: -2px; left: 0;height:<?php echo $ml_height; ?>; background: <?php echo $ml_color;?>; margin: 0 auto !important; }.magic-line-nav-parent li ul{ top: 100%;}@media all and (max-width: 900px) {#magic-line{display:none;}}</style>
+        <style>.magic-line-nav-parent{ position: relative;}.magic-line-nav-parent li { display: -webkit-inline-box;display: -ms-inline-flexbox;display: inline-flex;}#magic-line{ position: absolute; bottom: <?php echo $ml_bottom; ?>; left: 0;height:<?php echo $ml_height; ?>; background: <?php echo $ml_color;?>; margin: 0 auto !important; border-radius: <?php echo $ml_border_radius;?>}.magic-line-nav-parent li ul{ top: 100%;}@media all and (max-width: 900px) {#magic-line{display:none;}}</style>
         
         <script type="text/javascript">
             (function($){
@@ -351,22 +426,38 @@ if(! class_exists('MagicLineNavigationLight') ){
                     }
                 }
 
+                var elPaddingLeft = parseInt($currentNavItem.css('padding-left'));
+
                 // Set Magic line initial state
                 $magicLine = $('#magic-line');
-                $magicLine.width($currentText.width())
-                    .css('left', $currentNavItem.position().left)
+                $magicLine.width($currentText.width() - elPaddingLeft)
+                    .css('left', $currentNavItem.position().left + elPaddingLeft)
                     .data('origLeft', $magicLine.position().left)
-                    .data('origWidth', $magicLine.width());
+                    .data('origWidth', $magicLine.width() + elPaddingLeft);
                 // Magic line on hover
                 $(".magic-line-nav-parent > li").hover(function() {
                     $el = $(this);
-                    leftPos = $el.position().left;
-                    newWidth = $el.width();
+                 
+                    leftPos = $el.position().left + elPaddingLeft;
+                    if(elPaddingLeft > $el.width()){
+                        newWidth = elPaddingLeft - $el.width();
+                    }else{
+                        newWidth = $el.width();
+                    }
+
+                    
+                    // var $padding = $el.outerWidth(true) / 2;
+                    console.log(elPaddingLeft);
                     // newWidth = $el.outerWidth(true);
+                    // $magicLine.stop().animate({
+                    //     left: leftPos,
+                    //     width: newWidth
+                    // });
                     $magicLine.stop().animate({
                         left: leftPos,
                         width: newWidth
                     });
+
                 }, function() {
                     $magicLine.stop().animate({
                         left: $magicLine.data("origLeft"),

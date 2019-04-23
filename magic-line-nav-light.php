@@ -428,6 +428,7 @@ if(! class_exists('MagicLineNavigationLight') ){
 
                 var elPaddingLeft = parseInt($currentNavItem.css('padding-left'));
 
+
                 // Set Magic line initial state
                 $magicLine = $('#magic-line');
                 $magicLine.width($currentText.width() - elPaddingLeft)
@@ -437,17 +438,18 @@ if(! class_exists('MagicLineNavigationLight') ){
                 // Magic line on hover
                 $(".magic-line-nav-parent > li").hover(function() {
                     $el = $(this);
-                 
-                    leftPos = $el.position().left + elPaddingLeft;
-                    if(elPaddingLeft > $el.width()){
-                        newWidth = elPaddingLeft - $el.width();
-                    }else{
-                        newWidth = $el.width();
-                    }
+                    var hoverElPaddingLeft = parseInt($el.css('padding-left'));
+                    newWidth = $el.width();
+                    leftPos = $el.position().left + hoverElPaddingLeft;
+                    // newWidth = $el.width();
+                    // if(hoverElPaddingLeft > $el.width()){
+                    //     newWidth = elPaddingLeft - $el.width();
+                    // }else{
+                    // }
 
                     
                     // var $padding = $el.outerWidth(true) / 2;
-                    console.log(elPaddingLeft);
+                    console.log(newWidth);
                     // newWidth = $el.outerWidth(true);
                     // $magicLine.stop().animate({
                     //     left: leftPos,
@@ -468,11 +470,14 @@ if(! class_exists('MagicLineNavigationLight') ){
                 $(".magic-line-nav-parent li a").click(function() {
                     $(this).parent().siblings().removeClass("current-menu-item");
                     $(this).parent().addClass("clicked-menu-item current-menu-item");
+
+                    var clickedPaddingLeft = parseInt($(".magic-line-nav-parent li.clicked-menu-item").css('padding-left'));
+
                     $magicLine
-                    .width($(".magic-line-nav-parent li.clicked-menu-item a").width())
-                    .css("left", $(".magic-line-nav-parent li.clicked-menu-item").position().left)
+                    .width($(".magic-line-nav-parent li.clicked-menu-item a").width() - clickedPaddingLeft)
+                    .css("left", $(".magic-line-nav-parent li.clicked-menu-item").position().left + clickedPaddingLeft)
                     .data("origLeft", $magicLine.position().left)
-                    .data("origWidth", $magicLine.width());
+                    .data("origWidth", $magicLine.width() + clickedPaddingLeft);
                     // .data("origWidth", $magicLine.outerWidth(true));
                 });
 

@@ -1,0 +1,15 @@
+css customization
+1 color - colorpicker
+1 height - text
+1 border-radius - text - later
+1 add bottom option in px
+
+Options
+0 Calculate the padding and margin and add to left position
+
+Admin UI
+1 Donate to Paypal and cofti buttons
+
+Future Features
+0 RTL support
+0 add form validations

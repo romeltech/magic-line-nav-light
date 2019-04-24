@@ -442,8 +442,9 @@ if(! class_exists('MagicLineNavigationLight') ){
                     $el = $(this);
                     var hoverElPaddingLeft = parseInt($el.css('padding-left'));
                     var hoverElMarginLeft = parseInt($el.css('margin-left'));
+                    var hoverTotalWidth = hoverElMarginLeft - hoverElPaddingLeft;
                     newWidth = $el.width();
-                    leftPos = $el.position().left + hoverElPaddingLeft + hoverElMarginLeft;
+                    leftPos = $el.position().left + hoverTotalWidth;
                     // newWidth = $el.width();
                     // if(hoverElPaddingLeft > $el.width()){
                     //     newWidth = elPaddingLeft - $el.width();
@@ -466,7 +467,7 @@ if(! class_exists('MagicLineNavigationLight') ){
                 }, function() {
                     $magicLine.stop().animate({
                         left: $magicLine.data("origLeft"),
-                        width: $magicLine.data("origWidth")
+                        width: $magicLine.data("origWidth") - elInitTotal
                     });    
                 });
 

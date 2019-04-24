@@ -426,21 +426,24 @@ if(! class_exists('MagicLineNavigationLight') ){
                     }
                 }
 
+                // var elPaddingLeft = parseInt($currentNavItem.css('padding-left'));
                 var elPaddingLeft = parseInt($currentNavItem.css('padding-left'));
-
+                var elMarginLeft = parseInt($currentNavItem.css('margin-left'));
+                var elInitTotal = elPaddingLeft + elMarginLeft;
 
                 // Set Magic line initial state
                 $magicLine = $('#magic-line');
-                $magicLine.width($currentText.width() - elPaddingLeft)
-                    .css('left', $currentNavItem.position().left + elPaddingLeft)
+                $magicLine.width($currentText.width())
+                    .css('left', $currentNavItem.position().left + elInitTotal)
                     .data('origLeft', $magicLine.position().left)
-                    .data('origWidth', $magicLine.width() + elPaddingLeft);
+                    .data('origWidth', $magicLine.width() + elInitTotal);
                 // Magic line on hover
                 $(".magic-line-nav-parent > li").hover(function() {
                     $el = $(this);
                     var hoverElPaddingLeft = parseInt($el.css('padding-left'));
+                    var hoverElMarginLeft = parseInt($el.css('margin-left'));
                     newWidth = $el.width();
-                    leftPos = $el.position().left + hoverElPaddingLeft;
+                    leftPos = $el.position().left + hoverElPaddingLeft + hoverElMarginLeft;
                     // newWidth = $el.width();
                     // if(hoverElPaddingLeft > $el.width()){
                     //     newWidth = elPaddingLeft - $el.width();
@@ -449,7 +452,7 @@ if(! class_exists('MagicLineNavigationLight') ){
 
                     
                     // var $padding = $el.outerWidth(true) / 2;
-                    console.log(newWidth);
+                    console.log(elInitTotal);
                     // newWidth = $el.outerWidth(true);
                     // $magicLine.stop().animate({
                     //     left: leftPos,
@@ -472,12 +475,14 @@ if(! class_exists('MagicLineNavigationLight') ){
                     $(this).parent().addClass("clicked-menu-item current-menu-item");
 
                     var clickedPaddingLeft = parseInt($(".magic-line-nav-parent li.clicked-menu-item").css('padding-left'));
+                    var clickedMarginLeft = parseInt($(".magic-line-nav-parent li.clicked-menu-item").css('margin-left'));
+                    var clickedTotal = clickedPaddingLeft + clickedMarginLeft;
 
                     $magicLine
-                    .width($(".magic-line-nav-parent li.clicked-menu-item a").width() - clickedPaddingLeft)
-                    .css("left", $(".magic-line-nav-parent li.clicked-menu-item").position().left + clickedPaddingLeft)
+                    .width($(".magic-line-nav-parent li.clicked-menu-item a").width() )
+                    .css("left", $(".magic-line-nav-parent li.clicked-menu-item").position().left + clickedTotal)
                     .data("origLeft", $magicLine.position().left)
-                    .data("origWidth", $magicLine.width() + clickedPaddingLeft);
+                    .data("origWidth", $magicLine.width() );
                     // .data("origWidth", $magicLine.outerWidth(true));
                 });
 

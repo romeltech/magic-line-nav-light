@@ -426,7 +426,6 @@ if(! class_exists('MagicLineNavigationLight') ){
                     }
                 }
 
-<<<<<<< HEAD
                 // var elPaddingLeft = parseInt($currentNavItem.css('padding-left'));
                 var elPaddingLeft = parseInt($currentNavItem.css('padding-left'));
                 var elMarginLeft = parseInt($currentNavItem.css('margin-left'));
@@ -438,29 +437,13 @@ if(! class_exists('MagicLineNavigationLight') ){
                     .css('left', $currentNavItem.position().left + elInitTotal)
                     .data('origLeft', $magicLine.position().left)
                     .data('origWidth', $magicLine.width() + elInitTotal);
-=======
-                var elPaddingLeft = parseInt($currentNavItem.css('padding-left'));
-
-
-                // Set Magic line initial state
-                $magicLine = $('#magic-line');
-                $magicLine.width($currentText.width() - elPaddingLeft)
-                    .css('left', $currentNavItem.position().left + elPaddingLeft)
-                    .data('origLeft', $magicLine.position().left)
-                    .data('origWidth', $magicLine.width() + elPaddingLeft);
->>>>>>> 76634cec95b591e0f06d0d69a2fea8718f1d8168
                 // Magic line on hover
                 $(".magic-line-nav-parent > li").hover(function() {
                     $el = $(this);
                     var hoverElPaddingLeft = parseInt($el.css('padding-left'));
-<<<<<<< HEAD
                     var hoverElMarginLeft = parseInt($el.css('margin-left'));
                     newWidth = $el.width();
                     leftPos = $el.position().left + hoverElPaddingLeft + hoverElMarginLeft;
-=======
-                    newWidth = $el.width();
-                    leftPos = $el.position().left + hoverElPaddingLeft;
->>>>>>> 76634cec95b591e0f06d0d69a2fea8718f1d8168
                     // newWidth = $el.width();
                     // if(hoverElPaddingLeft > $el.width()){
                     //     newWidth = elPaddingLeft - $el.width();
@@ -469,11 +452,7 @@ if(! class_exists('MagicLineNavigationLight') ){
 
                     
                     // var $padding = $el.outerWidth(true) / 2;
-<<<<<<< HEAD
                     console.log(elInitTotal);
-=======
-                    console.log(newWidth);
->>>>>>> 76634cec95b591e0f06d0d69a2fea8718f1d8168
                     // newWidth = $el.outerWidth(true);
                     // $magicLine.stop().animate({
                     //     left: leftPos,
@@ -496,7 +475,6 @@ if(! class_exists('MagicLineNavigationLight') ){
                     $(this).parent().addClass("clicked-menu-item current-menu-item");
 
                     var clickedPaddingLeft = parseInt($(".magic-line-nav-parent li.clicked-menu-item").css('padding-left'));
-<<<<<<< HEAD
                     var clickedMarginLeft = parseInt($(".magic-line-nav-parent li.clicked-menu-item").css('margin-left'));
                     var clickedTotal = clickedPaddingLeft + clickedMarginLeft;
 
@@ -505,14 +483,6 @@ if(! class_exists('MagicLineNavigationLight') ){
                     .css("left", $(".magic-line-nav-parent li.clicked-menu-item").position().left + clickedTotal)
                     .data("origLeft", $magicLine.position().left)
                     .data("origWidth", $magicLine.width() );
-=======
-
-                    $magicLine
-                    .width($(".magic-line-nav-parent li.clicked-menu-item a").width() - clickedPaddingLeft)
-                    .css("left", $(".magic-line-nav-parent li.clicked-menu-item").position().left + clickedPaddingLeft)
-                    .data("origLeft", $magicLine.position().left)
-                    .data("origWidth", $magicLine.width() + clickedPaddingLeft);
->>>>>>> 76634cec95b591e0f06d0d69a2fea8718f1d8168
                     // .data("origWidth", $magicLine.outerWidth(true)); 
                 });
 

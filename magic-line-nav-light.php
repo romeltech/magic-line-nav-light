@@ -513,7 +513,7 @@ if(! class_exists('MagicLineNavigationLight') ){
                     .data("origLeft", $magicLine.position().left)
                     .data("origWidth", $magicLine.width() + clickedPaddingLeft);
 >>>>>>> 76634cec95b591e0f06d0d69a2fea8718f1d8168
-                    // .data("origWidth", $magicLine.outerWidth(true));
+                    // .data("origWidth", $magicLine.outerWidth(true)); 
                 });
 
             })(jQuery);

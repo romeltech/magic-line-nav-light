@@ -282,48 +282,6 @@ if(! class_exists('MagicLineNavigationLight') ){
 
         }
 
-        /**
-         * Form Validations
-         */
-        public function validate_options( $fields ) { 
-     
-            $valid_fields = array();
-             
-            // Validate Title Field
-            $title = trim( $fields['title'] );
-            $valid_fields['title'] = strip_tags( stripslashes( $title ) );
-             
-            // Validate Background Color
-            $checkmlcolor = trim( $fields['ml_color'] );
-            $checkmlcolor = strip_tags( stripslashes( $checkmlcolor ) );
-             
-            // Check if is a valid hex color
-            if( FALSE === $this->check_color( $checkmlcolor ) ) {
-             
-                // Set the error message
-                add_settings_error( 'magic_line_nav_light', 'ml_color_error', 'Insert a color format, please use hex color e.g. #000000.', 'error' ); // $setting, $code, $message, $type
-                 
-                // Get the previous valid value
-                $valid_fields['ml_color'] = $this->options['ml_color'];
-             
-            } else {
-             
-                $valid_fields['ml_color'] = $checkmlcolor;  
-             
-            }
-             
-            return apply_filters( 'validate_options', $valid_fields, $fields);
-        }
-        
-        public function check_color( $value ) { 
-     
-            if ( preg_match( '/^#[a-f0-9]{6}$/i', $value ) ) { // if user insert a HEX color with #     
-                return true;
-            }
-             
-            return false;
-        }
-
     }
 
     if( class_exists('MagicLineNavigationLight') ){
@@ -359,12 +317,6 @@ if(! class_exists('MagicLineNavigationLight') ){
         // echo $thecptArr[1];
 
         ?>
-        <!-- .magic-line-nav-parent li {padding-right: 40px;}
-        .magic-line-nav-parent li a{padding-right: 0;} -->
-
-        <!-- Magic Line Navigation is Active -->
-        <!-- .magic-line-nav-parent li { display: -webkit-inline-box;display: -ms-inline-flexbox;display: inline-flex; padding-right:15px; }.magic-line-nav-parent li a{padding:0;margin:0;} -->
-
         <style>.magic-line-nav-parent{ position: relative;}.magic-line-nav-parent li { display: -webkit-inline-box;display: -ms-inline-flexbox;display: inline-flex;}#magic-line{ position: absolute; bottom: <?php echo $ml_bottom; ?>; left: 0;height:<?php echo $ml_height; ?>; background: <?php echo $ml_color;?>; margin: 0 auto !important; border-radius: <?php echo $ml_border_radius;?>}.magic-line-nav-parent li ul{ top: 100%;}@media all and (max-width: 900px) {#magic-line{display:none;}}</style>
         
         <script type="text/javascript">
@@ -409,8 +361,6 @@ if(! class_exists('MagicLineNavigationLight') ){
                     $curentMenuItemCount = $('.magic-line-nav-parent li.current-menu-item').length;
                     $curentPageParentCount = $('.magic-line-nav-parent li.current_page_parent').length;
 
-                    // console.log('current menu item : '+$curentMenuItemCount);
-                    // console.log('current Page Count : '+$curentPageParentCount);
                     // if li have classes of current-menu-item and current_page_parent
                     if($curentMenuItemCount == 0 && $curentPageParentCount == 0 ){
                         // if no classes magicline will initiate on the li with .magic-line-nav class
@@ -446,20 +396,6 @@ if(! class_exists('MagicLineNavigationLight') ){
                     var hoverTotalWidth = hoverElMarginLeft - hoverElPaddingLeft;
                     newWidth = $el.width();
                     leftPos = $el.position().left + hoverTotalWidth;
-                    // newWidth = $el.width();
-                    // if(hoverElPaddingLeft > $el.width()){
-                    //     newWidth = elPaddingLeft - $el.width();
-                    // }else{
-                    // }
-
-                    
-                    // var $padding = $el.outerWidth(true) / 2;
-                    // console.log($elInitTotal);
-                    // newWidth = $el.outerWidth(true);
-                    // $magicLine.stop().animate({
-                    //     left: leftPos,
-                    //     width: newWidth
-                    // });
                     $magicLine.stop().animate({
                         left: leftPos,
                         width: newWidth
@@ -486,7 +422,6 @@ if(! class_exists('MagicLineNavigationLight') ){
                     .css("left", $(".magic-line-nav-parent li.clicked-menu-item").position().left + clickedTotal)
                     .data("origLeft", $magicLine.position().left)
                     .data("origWidth", $magicLine.width() + clickedTotal);
-                    // .data("origWidth", $magicLine.outerWidth(true)); 
                 });
 
             })(jQuery);

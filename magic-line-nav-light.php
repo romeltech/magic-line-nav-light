@@ -403,6 +403,7 @@ if(! class_exists('MagicLineNavigationLight') ){
                 // console.log('elPaddingTotal '+elPaddingTotal);
                 // Set Magic line initial state
                 $magicLine = $('#magic-line');
+                console.log('left: '+sum);
                 // var currentNavItema = $currentText[0].getBoundingClientRect().width;
                 console.log('a tag: '+ $currentNavItem.find('a')[0].getBoundingClientRect().width);
                 $magicLine.width($currentNavItem.find('a')[0].getBoundingClientRect().width)

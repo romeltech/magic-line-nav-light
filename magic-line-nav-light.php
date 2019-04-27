@@ -376,7 +376,8 @@ if(! class_exists('MagicLineNavigationLight') ){
                 $navParent, $magicLineClass, $el, $currentText, $currentNavItem,
                 $curentMenuItemCount, $curentPageParentCount;
                 
-                cpts = <?php echo json_encode($cptArr); ?>;
+                // cpts = echo json_encode($cptArr); ?>;
+                cpts = 'here';
 
                 // Magic line Class
                 $magicLineClass = $(".magic-line-nav"); 
@@ -429,14 +430,14 @@ if(! class_exists('MagicLineNavigationLight') ){
                 // var elPaddingLeft = parseInt($currentNavItem.css('padding-left'));
                 var elPaddingLeft = parseInt($currentNavItem.css('padding-left'));
                 var elMarginLeft = parseInt($currentNavItem.css('margin-left'));
-                var elInitTotal = elPaddingLeft + elMarginLeft;
+                var $elInitTotal = elPaddingLeft + elMarginLeft;
 
                 // Set Magic line initial state
                 $magicLine = $('#magic-line');
                 $magicLine.width($currentText.width())
-                    .css('left', $currentNavItem.position().left + elInitTotal)
+                    .css('left', $currentNavItem.position().left + $elInitTotal)
                     .data('origLeft', $magicLine.position().left)
-                    .data('origWidth', $magicLine.width() + elInitTotal);
+                    .data('origWidth', $magicLine.width() + $elInitTotal);
                 // Magic line on hover
                 $(".magic-line-nav-parent > li").hover(function() {
                     $el = $(this);
@@ -453,7 +454,7 @@ if(! class_exists('MagicLineNavigationLight') ){
 
                     
                     // var $padding = $el.outerWidth(true) / 2;
-                    console.log(elInitTotal);
+                    // console.log($elInitTotal);
                     // newWidth = $el.outerWidth(true);
                     // $magicLine.stop().animate({
                     //     left: leftPos,
@@ -467,8 +468,9 @@ if(! class_exists('MagicLineNavigationLight') ){
                 }, function() {
                     $magicLine.stop().animate({
                         left: $magicLine.data("origLeft"),
-                        width: $magicLine.data("origWidth") - elInitTotal
+                        width: $magicLine.data("origWidth") - $elInitTotal
                     });    
+                    console.log($elInitTotal);
                 });
 
                 $(".magic-line-nav-parent li a").click(function() {
@@ -483,7 +485,7 @@ if(! class_exists('MagicLineNavigationLight') ){
                     .width($(".magic-line-nav-parent li.clicked-menu-item a").width() )
                     .css("left", $(".magic-line-nav-parent li.clicked-menu-item").position().left + clickedTotal)
                     .data("origLeft", $magicLine.position().left)
-                    .data("origWidth", $magicLine.width() );
+                    .data("origWidth", $magicLine.width() + clickedTotal);
                     // .data("origWidth", $magicLine.outerWidth(true)); 
                 });
 
